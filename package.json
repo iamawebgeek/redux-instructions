@@ -1,0 +1,26 @@
+{
+  "author": "iamawebgeek@gmail.com",
+  "name": "redux-instructions",
+  "version": "0.1.0",
+  "description": "Redux utility to reduce boilerplate",
+  "license": "MIT",
+  "repository": "github:iamawebgeek/redux-utilities",
+  "bugs": "https://github.com/iamawebgeek/redux-utilities/issues",
+  "main": "cjs/index.js",
+  "typings": "cjs/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "rimraf cjs && yarn prettier && yarn build",
+    "prettier": "prettier src/*.ts --write"
+  },
+  "dependencies": {
+    "uniqid": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/redux": "^3.6.0",
+    "@types/uniqid": "^4.1.2",
+    "prettier": "^1.15.2",
+    "rimraf": "^2.6.2",
+    "typescript": "3.1.6"
+  }
+}
