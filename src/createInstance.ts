@@ -1,5 +1,5 @@
 import * as uniqid from 'uniqid'
-import { Reducer } from 'redux'
+import { Reducer, AnyAction } from 'redux'
 
 const NAMESPACE = '@@instructions'
 const applyAction = { type: `${NAMESPACE}/APPLY` }
@@ -54,11 +54,14 @@ export function createInstance() {
     const type = `${NAMESPACE}/ACTION/${uniqid()}`
     const actionCreator = function(payload: P, meta: M) {
       instructingFunc(payload, meta)
-      return {
-        type,
-        payload,
-        meta,
+      const action: AnyAction = { type }
+      if (payload) {
+        action.payload = payload
       }
+      if (meta) {
+        action.meta = meta
+      }
+      return action
     }
     actionCreator.toString = () => type
     return actionCreator
