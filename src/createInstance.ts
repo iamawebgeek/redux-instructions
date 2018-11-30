@@ -31,7 +31,10 @@ export function createInstance() {
         delete instructions[reducerKey]
         return awaitingInstructions.reduce(
           (currentState, [instruction, modifier]) => {
-            return instruction(currentState, modifier)
+            return instruction(
+              currentState,
+              typeof modifier === 'undefined' ? defaultState : modifier,
+            )
           },
           state,
         )
@@ -45,7 +48,7 @@ export function createInstance() {
   function instruct<S, M>(
     reducer: InstructingReducer<S>,
     instruction: Instruction<S, M>,
-    modifier: M,
+    modifier?: M,
   ) {
     let key = reducer.reducerKey
     if (!instructions[key]) {
