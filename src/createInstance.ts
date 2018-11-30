@@ -1,5 +1,5 @@
 import * as uniqid from 'uniqid'
-import { Reducer, AnyAction } from 'redux'
+import { Reducer, Action, AnyAction } from 'redux'
 
 const NAMESPACE = '@@instructions'
 const applyAction = { type: `${NAMESPACE}/APPLY` }
@@ -7,6 +7,10 @@ const applyAction = { type: `${NAMESPACE}/APPLY` }
 export type Instruction<T, M = any> = (current: T, modifier: M) => T
 export type InstructingReducer<S = any> = Reducer<S> & {
   reducerKey: string
+}
+export type InstructingAction<P, M> = {
+  (payload: P, meta: M): Action & { payload?: P; meta?: M }
+  toString: () => string
 }
 export type InstructingFunction<P, M> = (payload: P, meta: M) => void
 type Instructions = {
@@ -50,7 +54,9 @@ export function createInstance() {
     instructions[key] = [...instructions[key], [instruction, modifier]]
   }
 
-  function instructingAction<P, M>(instructingFunc: InstructingFunction<P, M>) {
+  function instructingAction<P, M>(
+    instructingFunc: InstructingFunction<P, M>,
+  ): InstructingAction<P, M> {
     const type = `${NAMESPACE}/ACTION/${uniqid()}`
     const actionCreator = function(payload: P, meta: M) {
       instructingFunc(payload, meta)

@@ -3,6 +3,7 @@ export {
   Instruction,
   InstructingFunction,
   InstructingReducer,
+  InstructingAction,
 } from './createInstance'
 
 export const {
